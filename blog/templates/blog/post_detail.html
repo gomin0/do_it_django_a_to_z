@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.min.css' %}" media="screen">
         <!-- Core theme CSS (includes Bootstrap)-->
         <link rel="stylesheet" href="{% static 'blog/css/blog-post.css' %}" media="screen">
+        <script src="<script src=https://kit.fontawesome.com/ee92c1171c.js" crossorigin="anonymous"></script>"
     </head>
     <body>
         <!-- Responsive navbar-->
@@ -33,7 +34,7 @@
 
             <div class="row">
                 <!-- Post Content Column -->
-                <div class="col-lg-8">
+                <a class="col-lg-8">
                     <!-- Title -->
                     <h1 class="mt-4">{{ post.title }}</h1>
                     <!-- Author -->
@@ -60,6 +61,21 @@
 
                     <!-- Post Content -->
                     <p>{{ post.content }}</p>
+
+                    {% if post.file_upload %}
+                        <a href="{{ post.file_upload.url }}" class="btn btn-outline-dark" role="button">Download:
+
+                        {% if post.get_file_ext == 'csv' %}
+                            <i class="fas fa-file-csv"></i>
+                        {% elif post.get_file_ext == 'xlsx' or post.get_file_ext == 'xls' %}
+                            <i class="fas fa-file-excel"></i>
+                        {% elif post.get_file_ext == 'docx' or post.get_file_ext == 'doc' %}
+                            <i class="fas fa-file-word"></i>
+                        {% else %}
+                            <i class="far fa-file"></i>
+                        {% endif %}
+                        {{ post.get_file_name }}
+                    {% endif %}
 
                     <hr>
 
