@@ -54,7 +54,7 @@ class TestView(TestCase):
             title='첫 번째 포스트입니다.',
             content='Hello World. We are the world.',
         )
-        # 1.2. 그 포스트의 url은 '/blog/1/' 이다.
+        # 1.2. 그 포스트의 url은 'blog/1/' 이다.
         self.assertEqual(post_001.get_absolute_url(), '/blog/1/')
 
         # 2. 첫 번째 포스트의 상세 페이지 테스트
@@ -70,7 +70,7 @@ class TestView(TestCase):
         self.assertIn(post_001.title, soup.title.text)
         # 2.4. 첫 번째 포스트의 제목이 포스트 영역에 있다.
         main_area = soup.find('div', id='main-area')
-        post_area = main_area('div', id='post-area')
+        post_area = main_area.find('div', id='post-area')
         self.assertIn(post_001.title, post_area.text)
         # 2.5. 첫 번째 포스트의 작성자(author)가 포스트 영역에 있다.(아직 구현할 수 없음).
 
