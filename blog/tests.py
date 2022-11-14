@@ -8,6 +8,8 @@ class TestView(TestCase):
         self.client = Client()
         self.user_gomin0 = User.objects.create_user(username='gomin0', password='end981113.')
         self.user_gomin1 = User.objects.create_user(username='gomin1', password='end981113.')
+        self.user_gomin0.is_staff = True
+        self.user_gomin0.save()
 
         self.category_soccer = Category.objects.create(name='soccer', slug='soccer')
         self.category_star = Category.objects.create(name='star', slug='star')
@@ -178,9 +180,13 @@ class TestView(TestCase):
         response = self.client.get('/blog/create_post/')
         self.assertNotEqual(response.status_code, 200)
 
-        # staff가 아닌 trum가 로그인을 한다.
-        self.client.login(username='gomin0', password='end981113.')
+        # staff가 아닌 gomin1이 로그인을 한다.
+        self.client.login(username='gomin1', password='end981113.')
+        response = self.client.get('/blog/create_post/')
+        self.assertNotEqual(response.status_code, 200)
 
+        # staff인 gomin0이 로그인 한다.
+        self.client.login(username='gomin0', password='end981113.')
         response = self.client.get('/blog/create_post/')
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
